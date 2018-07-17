@@ -1,0 +1,24 @@
+Release Notes for Payload SDK
+
+Update History
+===== V1.1.0 / 28-March-2018 ====
+1.Publish Version
+
+===== V1.0.4 / 09-March-2018 ====
+1.Add gimbal self-calibration interface.
+2.Add more Comment.
+
+===== V1.0.3 / 06-February-2018 =====
+1. Payload Camera Interface Change, add function switch.
+2. SD Card State Change.
+
+===== V1.0.2 / 19-January-2018  =====
+Main Changes :
+1. DJI Pilot support.
+2. Add custom widget function for DJI Pilot.
+3. Add zoom and focus function.
+4. iOS Mobile SDK support.
+
+===== V1.0.1 / 25-December-2017 =====
+Main Changes :
+1. Create payload sdk
