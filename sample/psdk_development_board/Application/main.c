@@ -25,7 +25,7 @@ osThreadId psdkTestTaskHandle;
   */
 int main(void)
 {
-    /* Init */
+    /* Init */ 
     Sys_Init();
 
     application_init();

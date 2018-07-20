@@ -6,7 +6,7 @@
 
 #define USING_UART_PORT_1
 #define USING_UART_PORT_2
-#define USING_UART_PORT_3
+//#define USING_UART_PORT_3
 
 #define UART_ERROR  -1
 

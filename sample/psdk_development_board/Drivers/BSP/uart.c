@@ -22,12 +22,12 @@
 #define UART3_IRQ_PRIO_SUB      0
 
 //uart GPIO define
-#define UART1_GPIO_TX       GPIO_Pin_9
-#define UART1_TX_PIN_SOURCE GPIO_PinSource9
-#define UART1_GPIO_RX       GPIO_Pin_10
-#define UART1_RX_PIN_SOURCE GPIO_PinSource10
-#define UART1_GPIO          GPIOA
-#define UART1_GPIO_RCC      RCC_AHB1Periph_GPIOA
+#define UART1_GPIO_TX       GPIO_Pin_6
+#define UART1_TX_PIN_SOURCE GPIO_PinSource6
+#define UART1_GPIO_RX       GPIO_Pin_7
+#define UART1_RX_PIN_SOURCE GPIO_PinSource7
+#define UART1_GPIO          GPIOB
+#define UART1_GPIO_RCC      RCC_AHB1Periph_GPIOB
 #define RCC_APBPeriph_UART1 RCC_APB2Periph_USART1
 
 #define UART2_GPIO_TX       GPIO_Pin_2

@@ -107,7 +107,7 @@ INTERFACE int flash_wirte_data(uint32_t *addr, uint32_t *data, uint16_t len)
 INTERFACE int flash_erase(uint32_t startAddr,uint32_t endAddr)
 {
     uint32_t addrErase;
-    uint32_t data;
+//    uint32_t data;
 
     FLASH_Status status=FLASH_COMPLETE;
     //if(startAddr < FLASH_APP_START_ADDR || startAddr % 4 )

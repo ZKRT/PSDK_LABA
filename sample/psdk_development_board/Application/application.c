@@ -59,22 +59,25 @@ void RunIndicateTask(void const *parameter)
         }
 
         OS_DELAY(1);
-        if (cnt++ > 500) {
+        if (cnt++ > 1000) {
             LED_Control(LED1_GREEN, LED_OPT_TOGGLE);
             cnt = 0;
+            PSDK_LOG_DEBUG("led indicate\n");
         }
     }
 }
 
 void PsdkTestTask(void const *parameter)
 {
-    double temp, press;
+    double temp=10000000, press=0;
     uint16_t realSendLen;
 
-    Ms5607_Init();
+    // Ms5607_Init();
 
     while (1) {
-        Ms5607_GetSenorData(&temp, &press);
+        // Ms5607_GetSenorData(&temp, &press);
+		press++;
+		temp--;
         sprintf(printBuffer, "Demo Sensor Info:\r\n\r\nBaro Pre = %f mbar\r\n\r\nBoard Temp = %f `C\r\n", press, temp);
 
         //push this info to DJI Pilot Floating Window
@@ -122,13 +125,13 @@ void application_init(void)
 
     Button_Init();
 
-    UART_SW_Init();
-    CAN_SW_Init();
+    // UART_SW_Init();
+    // CAN_SW_Init();
 
     can_uart_sw_settings = flash_read_settings();
-    Button_StartUpdate();
+    // Button_StartUpdate();
 
-    Ms5607Spi_Init();
+    // Ms5607Spi_Init();
 
     //===================== psdk init ==============================//
     //base init
@@ -147,12 +150,12 @@ void application_init(void)
     PsdkMsgSub_Init(&s_psdkUpperHandle);
     PsdkMsgSub_RegMsgCallbackList(&s_psdkUpperHandle, &g_PushDataMsgCallbackList);
 
-    //Camera function Emulate Test, callback functions in Application/psdk_test/test_payload_cam_emu.c
-    //If want transfer video to Mobile SDK or DJI Pilot, this function must call to init Payload camera.
-    PsdkCamera_Init(&s_psdkUpperHandle, &g_testCameraHandler);
+    // //Camera function Emulate Test, callback functions in Application/psdk_test/test_payload_cam_emu.c
+    // //If want transfer video to Mobile SDK or DJI Pilot, this function must call to init Payload camera.
+    // PsdkCamera_Init(&s_psdkUpperHandle, &g_testCameraHandler);
 
-    //Gimbal function Emulate Test, callback functions in Application/psdk_test/test_payload_gimbal_emu.c
-    PsdkGimbal_Init(&s_psdkUpperHandle, &g_testGimbalHandler);
+    // //Gimbal function Emulate Test, callback functions in Application/psdk_test/test_payload_gimbal_emu.c
+    // PsdkGimbal_Init(&s_psdkUpperHandle, &g_testGimbalHandler);
     //===================== psdk init End ============================//
 
 }

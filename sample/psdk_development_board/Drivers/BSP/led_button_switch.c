@@ -18,17 +18,17 @@
 
 
 /* Private define ------------------------------------------------------------*/
-#define LED1_RCC    RCC_AHB1Periph_GPIOE
-#define LED1_PORT   GPIOE
-#define LED1_PIN    GPIO_Pin_0
+#define LED1_RCC    RCC_AHB1Periph_GPIOB //run
+#define LED1_PORT   GPIOB
+#define LED1_PIN    GPIO_Pin_1
 
-#define LED2_RCC    RCC_AHB1Periph_GPIOE
-#define LED2_PORT   GPIOE
-#define LED2_PIN    GPIO_Pin_1
+#define LED2_RCC    RCC_AHB1Periph_GPIOB //uart api
+#define LED2_PORT   GPIOB
+#define LED2_PIN    GPIO_Pin_0
 
-#define LED3_RCC    RCC_AHB1Periph_GPIOE
-#define LED3_PORT   GPIOE
-#define LED3_PIN    GPIO_Pin_2
+#define LED3_RCC    RCC_AHB1Periph_GPIOB //can
+#define LED3_PORT   GPIOB
+#define LED3_PIN    GPIO_Pin_0
 
 #define UART_SW_RCC         RCC_AHB1Periph_GPIOE
 #define UART_SW_PORT        GPIOE
@@ -38,22 +38,25 @@
 #define CAN_SW_PORT         GPIOE
 #define CAN_SW_PIN          GPIO_Pin_10
 
-#define BUTTON1_RCC         RCC_AHB1Periph_GPIOD
-#define BUTTON1_PORT        GPIOD
-#define BUTTON1_PIN         GPIO_Pin_5
-#define BUTTON1_EXITPORT    EXTI_PortSourceGPIOD
-#define BUTTON1_EXITPIN     EXTI_PinSource5
-#define BUTTON1_EXITLINE    EXTI_Line5
+#define BUTTON1_RCC         RCC_AHB1Periph_GPIOA
+#define BUTTON1_PORT        GPIOA
+#define BUTTON1_PIN         GPIO_Pin_0
+#define BUTTON1_EXITPORT    EXTI_PortSourceGPIOA
+#define BUTTON1_EXITPIN     EXTI_PinSource0
+#define BUTTON1_EXITLINE    EXTI_Line0
 
-#define BUTTON2_RCC         RCC_AHB1Periph_GPIOD
-#define BUTTON2_PORT        GPIOD
-#define BUTTON2_PIN         GPIO_Pin_6
-#define BUTTON2_EXITPORT    EXTI_PortSourceGPIOD
-#define BUTTON2_EXITPIN     EXTI_PinSource6
-#define BUTTON2_EXITLINE    EXTI_Line6
+#define BUTTON2_RCC         RCC_AHB1Periph_GPIOA
+#define BUTTON2_PORT        GPIOA
+#define BUTTON2_PIN         GPIO_Pin_1
+#define BUTTON2_EXITPORT    EXTI_PortSourceGPIOA
+#define BUTTON2_EXITPIN     EXTI_PinSource1
+#define BUTTON2_EXITLINE    EXTI_Line1
 
-#define BUTTTON_IRQn        EXTI9_5_IRQn
-#define BUTTON_IRQHandler   EXTI9_5_IRQHandler
+#define BUTTTON_IRQn0        EXTI0_IRQn
+#define BUTTON_IRQHandler0   EXTI0_IRQHandler
+
+#define BUTTTON_IRQn1        EXTI1_IRQn
+#define BUTTON_IRQHandler1   EXTI1_IRQHandler
 
 #define DEFAULT_SETTINGS    0xFFFFFFFF
 /* Private variables ---------------------------------------------------------*/
@@ -178,16 +181,16 @@ void CAN_SW_Off(void)
 
 void Button_StartUpdate(void)
 {
-    if (can_uart_sw_settings == DEFAULT_SETTINGS)
-    {
-        UART_SW_On();
-        CAN_SW_On();
-    }
-    else
-    {
-        UART_SW_Off();
-        CAN_SW_Off();
-    }
+    // if (can_uart_sw_settings == DEFAULT_SETTINGS)
+    // {
+    //     UART_SW_On();
+    //     CAN_SW_On();
+    // }
+    // else
+    // {
+    //     UART_SW_Off();
+    //     CAN_SW_Off();
+    // }
 }
 
 void Button_PressCallback(E_Button button)
@@ -251,9 +254,14 @@ void Button_Init(void)
     EXTI_Init(&EXTI_InitStructure);
 
     /* Enable and set EXTI Line0 Interrupt to the lowest priority */
-    NVIC_InitStructure.NVIC_IRQChannel = BUTTTON_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannel = BUTTTON_IRQn0;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+    NVIC_InitStructure.NVIC_IRQChannel = BUTTTON_IRQn1;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0E;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0E;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 }
@@ -263,7 +271,29 @@ void Button_SetDownPressCallback(ButtonPressCallbackFunc callbackFunc)
     s_btPressCallback = callbackFunc;
 }
 
-void BUTTON_IRQHandler(void)
+// void BUTTON_IRQHandler(void)
+// {
+//     if (EXTI_GetITStatus(BUTTON1_EXITLINE) != RESET)
+//     {
+//         /* button1 */
+//         if(NULL != s_btPressCallback)
+//             s_btPressCallback(BUTTON1);
+
+//         /* Clear the EXTI line pending bit */
+//         EXTI_ClearITPendingBit(BUTTON1_EXITLINE);
+//     }
+//     else if (EXTI_GetITStatus(BUTTON2_EXITLINE) != RESET)
+//     {
+//         /* button2 */
+//         if(NULL != s_btPressCallback)
+//             s_btPressCallback(BUTTON2);
+
+//         /* Clear the EXTI line pending bit */
+//         EXTI_ClearITPendingBit(BUTTON2_EXITLINE);
+//     }
+// }
+
+void BUTTON_IRQHandler0(void)
 {
     if (EXTI_GetITStatus(BUTTON1_EXITLINE) != RESET)
     {
@@ -274,7 +304,10 @@ void BUTTON_IRQHandler(void)
         /* Clear the EXTI line pending bit */
         EXTI_ClearITPendingBit(BUTTON1_EXITLINE);
     }
-    else if (EXTI_GetITStatus(BUTTON2_EXITLINE) != RESET)
+}
+void BUTTON_IRQHandler1(void)
+{
+    if (EXTI_GetITStatus(BUTTON2_EXITLINE) != RESET)
     {
         /* button2 */
         if(NULL != s_btPressCallback)
@@ -284,5 +317,4 @@ void BUTTON_IRQHandler(void)
         EXTI_ClearITPendingBit(BUTTON2_EXITLINE);
     }
 }
-
 /************************ (C) COPYRIGHT DJI Innovations *******END OF FILE******/

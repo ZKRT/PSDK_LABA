@@ -361,14 +361,16 @@
 /*!< Uncomment the following line if you need to relocate your vector Table in
      Internal SRAM. */
 /* #define VECT_TAB_SRAM */
-#define VECT_TAB_OFFSET  0x4000 /*!< Vector Table base offset field. 
-                                   This value must be a multiple of 0x200. */
+//#define VECT_TAB_OFFSET  0x4000 /*!< Vector Table base offset field. 
+//                                   This value must be a multiple of 0x200. */
+#define VECT_TAB_OFFSET  0x0000								   
 /******************************************************************************/
 
 /************************* PLL Parameters *************************************/
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F401xx) || defined(STM32F469_479xx)
  /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N */
- #define PLL_M      (HSE_VALUE/1000000)
+// #define PLL_M      (HSE_VALUE/1000000)
+ #define PLL_M      8
 #elif defined(STM32F412xG) || defined(STM32F413_423xx) || defined (STM32F446xx)
  #define PLL_M      8
 #elif defined (STM32F410xx) || defined (STM32F411xE)
